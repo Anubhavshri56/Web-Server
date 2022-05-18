@@ -1,0 +1,15 @@
+namespace projector
+{
+class TMWebProjector
+{
+private:
+int portNumber;
+char *url;
+void (*ptrOnRequest)(void);
+public:
+void onRequest(const char *request,void (*ptrOnRequest)(void));
+TMWebProjector(int portNumber);
+~TMWebProjector();
+void start();
+};
+}
