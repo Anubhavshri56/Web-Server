@@ -1,0 +1,27 @@
+#ifndef __RESPONSEINTERFACE__$_
+#define __RESPONSEINTERFACE__$_ 123
+#include<string.h>
+#include<iostream>
+using namespace std;
+namespace projector
+{
+namespace abc
+{
+class ResponseInterface
+{
+virtual void setSocket(int clientSocketDescriptor)=0;
+virtual int getSocket()=0;
+virtual void write(string response)=0;
+virtual void write(const char *response)=0;
+virtual void flush()=0;
+virtual void flush(const char *mimeType)=0;
+virtual void flush(const char *responseBuffer,int size)=0;
+virtual void close()=0;
+virtual void sendError()=0;
+virtual void sendError(const char *)=0;
+virtual void writeHeader(const char *mimeType,int contentLength)=0;
+};
+}
+}
+
+#endif

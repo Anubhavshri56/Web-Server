@@ -1,0 +1,31 @@
+#ifndef __REQUESTINTERFACE__$_
+#define __REQUESTINTERFACE__$_ 123
+#include<string.h>
+#include<iostream>
+using namespace std;
+namespace projector
+{
+namespace abc
+{
+class RequestInterface
+{
+virtual void setResource(char *resource)=0;
+virtual char *getResource()=0;
+virtual void setMethod(char *method)=0;
+virtual char *getMethod()=0;
+virtual void setIsClientSideTechnologyResource(char isClientSideTechnologyResource)=0;
+virtual char getIsClientSideTechnologyResource()=0;
+virtual void setDataCount(int dataCount)=0;
+virtual int getDataCount()=0;
+virtual void setMimeType(char *mimeType)=0;
+virtual char *getMimeType()=0;
+virtual void setDataSet(char *dataSet[])=0;
+virtual char * get(const char *title)=0;
+virtual void setInitials(char *initials[])=0;
+virtual void release()=0;
+virtual bool hasData()=0;
+};
+}
+}
+
+#endif

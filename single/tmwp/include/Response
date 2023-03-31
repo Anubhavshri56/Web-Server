@@ -1,0 +1,30 @@
+#ifndef __RESPONSE_H__$_
+#define __RESPONSE_H__$_ 123
+#include<ResponseInterface>
+#include<string.h>
+#include<iostream>
+namespace projector
+{
+class Response:public abc::ResponseInterface
+{
+private:
+int clientSocketDescriptor;
+string response;
+public:
+static const int NO_HEADER=1;
+Response();
+virtual ~Response();
+void setSocket(int clientSocketDescriptor);
+int getSocket();
+void write(const char *response);
+void write(string response);
+void flush();
+void flush(const char *mimeType);
+void flush(const char *responseBuffer,int noHeader);
+void close();
+void sendError();
+void sendError(const char * resource);
+void writeHeader(const char *mimeType,int contentLength);
+};
+}
+#endif

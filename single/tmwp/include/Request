@@ -1,0 +1,38 @@
+#ifndef __REQUEST_H__$_
+#define __REQUEST_H__$_ 123
+#include<RequestInterface>
+#include<string.h>
+#include<iostream>
+namespace projector
+{
+class Request:public abc::RequestInterface
+{
+private:
+char * resource;
+char *method;
+char *mimeType;
+char isClientSideTechnologyResource;
+int dataCount;
+char **dataSet;
+char **initials;
+public:
+Request();
+virtual ~Request();
+void setResource(char * resource);
+char *getResource();
+void setMethod(char *method);
+char *getMethod();
+void setIsClientSideTechnologyResource(char isClientSideTechnologyResource);
+char getIsClientSideTechnologyResource();
+void setDataCount(int dataCount);
+int getDataCount();
+void setMimeType(char *mimeType);
+char * getMimeType();
+void setDataSet(char *dataSet[]);
+char * get(const char *title);
+void setInitials(char *initials[]);
+void release();
+bool hasData();
+};
+}
+#endif

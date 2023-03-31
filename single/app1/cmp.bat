@@ -1,0 +1,1 @@
+g++ -static myapp.cpp -o myapp.exe -I ..\tmwp\include -L ..\tmwp\lib -lTMWP -lws2_32

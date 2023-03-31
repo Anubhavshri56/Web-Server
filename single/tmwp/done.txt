@@ -1,0 +1,10 @@
+What have been achived
+	we have created interface of TMWP
+	we have implemented TMWP
+	we have created a Request class which acts as a wrapper to REQUEST struct and has method to extract data from it
+What has to be achived
+	To create a Response class which acts as a wrapper for sending response it should have methods like write which should be responsible for 
+	sending the response
+To Study
+	HTTP encoding and decoding 
+	content-length part of a HTTP request (to chech whether is it necessary to have content length)

@@ -1,0 +1,18 @@
+#ifndef __TMWPINTERFACE__$_
+#define __TMWPINTERFACE__$_ 123
+#include<Request>
+#include<Response>
+namespace projector
+{
+namespace abc
+{
+class TMWebProjectorInterface
+{
+virtual void onRequest(const char *request,void (*ptrOnRequest)(Request *,Response *))=0;
+virtual void start()=0;
+};
+}
+}
+#endif
+//virtual void onRequest(const char *request,void (*ptrOnRequest)(int, char *[]))=0;
+//virtual void start()=0;

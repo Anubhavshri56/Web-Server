@@ -1,15 +1,21 @@
+#ifndef __TMWP__H_$_
+#define __TMWP__H_$_ 123
+#include<tmwpInterface>
+#include<Request>
 namespace projector
 {
-class TMWebProjector
+class TMWebProjector:public abc::TMWebProjectorInterface
 {
 private:
+int onRequestSize;
 int portNumber;
-char *url;
-void (*ptrOnRequest)(void);
+char **url;
+void (**ptrOnRequest)(Request *request,Response *response);
 public:
-void onRequest(const char *request,void (*ptrOnRequest)(void));
+void onRequest(const char *request,void (*ptrOnRequest)(Request * request,Response *response));
 TMWebProjector(int portNumber);
 ~TMWebProjector();
 void start();
 };
 }
+#endif

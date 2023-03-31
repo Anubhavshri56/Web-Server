@@ -1,0 +1,8 @@
+MimeType
+REQUEST request
+request->method
+request->resource 
+pc [ released ]
+dataSet [ released ]
+dataSet[] [ released ]
+this->url [ released ]
