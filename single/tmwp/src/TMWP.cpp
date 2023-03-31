@@ -8,6 +8,7 @@
 #include<tmwp>
 #include<Request>
 #include<Response>
+#include<unordered_map>
 using namespace std;
 using namespace projector;
 
@@ -177,9 +178,6 @@ return request;
 TMWebProjector::TMWebProjector(int portNumber)
 {
 this->portNumber=portNumber;
-this->url=NULL;
-this->ptrOnRequest=NULL;
-this->onRequestSize=0;
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -187,7 +185,7 @@ this->onRequestSize=0;
 //----------------------------------------------------------------------------------------------------------------------------DESTRUCTOR----------------------------------------------------------------------------------------------------------------------------
 TMWebProjector::~TMWebProjector()
 {
-if(this->url) delete [] this->url;
+this->urlMap.clear();
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -196,27 +194,13 @@ if(this->url) delete [] this->url;
 //----------------------------------------------------------------------------------------------------------------------------ON REQUEST----------------------------------------------------------------------------------------------------------------------------
 void TMWebProjector::onRequest(const char *url,void (*ptrOnRequest)(Request *request,Response *response))
 {
-//if(this->url) delete []this->url;
-//this->url=NULL;
-//this->ptrOnRequest=NULL;
-char **urlArray;
-void (**ptrOnRequestArray)(Request *request,Response *response);
 if(url==NULL || ptrOnRequest==NULL) return;
-this->onRequestSize++;
-
-
-urlArray=new char*[this->onRequestSize];
-for(int e=0;e<this->onRequestSize-1;e++) urlArray[e]=this->url[e];
-urlArray[this->onRequestSize-1]=new char[strlen(url)+1];
-strcpy(urlArray[this->onRequestSize-1],url);
-delete []this->url;
-this->url=urlArray;
-
-ptrOnRequestArray=(void (**)(Request *,Response *))malloc(sizeof(void *)*onRequestSize);
-for(int e=0;e<this->onRequestSize-1;e++) ptrOnRequestArray[e]=this->ptrOnRequest[e];
-ptrOnRequestArray[this->onRequestSize-1]=ptrOnRequest;
-delete [] this->ptrOnRequest;
-this->ptrOnRequest=ptrOnRequestArray;
+int e=0,f,len;
+len=strlen(url);
+string tmpUrl;
+if(url[0]=='/') e=1;
+for(;e<len;e++) tmpUrl.push_back(url[e]);
+this->urlMap[tmpUrl]=ptrOnRequest;
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -375,7 +359,7 @@ response->close();
 else //--------------------------------------------------------------------------------------if(request->isClientSideTechnologyResource=='Y')'s else started-------------------------------------------------------------------------------------------
 {
 // server side resource code
-if(this->url==NULL || this->ptrOnRequest==NULL)
+if(this->urlMap.size()==0)
 {
 printf("Sending 404 error page\n");
 char tmp[501];
@@ -383,20 +367,17 @@ response->sendError(request->getResource());
 }
 else
 {
+unordered_map<string,void (*)(Request *,Response *)>::iterator i;
 int e,ii=0;
-for(e=0;e<this->onRequestSize;e++)
+for(i=this->urlMap.begin();i!=this->urlMap.end();i++) cout<<i->first<<endl;
+i=this->urlMap.find(request->getResource());
+if(i!=this->urlMap.end())
 {
-if(this->url[e][0]=='/') ii=1;
-if(strcmp(this->url[e]+ii,request->getResource())==0)
-{
-this->ptrOnRequest[e](request,response);
+i->second(request,response);
 if(request->hasData()) request->release();
 printf("Sending processed page\n");
-break;
 }
-ii=0;
-}
-if(e>=this->onRequestSize)
+else
 {
 printf("Sending 404 error page\n");
 char tmp[501];

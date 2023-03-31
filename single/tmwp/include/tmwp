@@ -2,6 +2,30 @@
 #define __TMWP__H_$_ 123
 #include<tmwpInterface>
 #include<Request>
+#include<unordered_map>
+namespace projector
+{
+class TMWebProjector:public abc::TMWebProjectorInterface
+{
+private:
+int portNumber;
+unordered_map<string,void (*)(Request *,Response *)> urlMap;
+public:
+void onRequest(const char *request,void (*ptrOnRequest)(Request * request,Response *response));
+TMWebProjector(int portNumber);
+~TMWebProjector();
+void start();
+};
+}
+#endif
+
+
+
+/*
+#ifndef __TMWP__H_$_
+#define __TMWP__H_$_ 123
+#include<tmwpInterface>
+#include<Request>
 namespace projector
 {
 class TMWebProjector:public abc::TMWebProjectorInterface
@@ -19,3 +43,5 @@ void start();
 };
 }
 #endif
+
+*/
